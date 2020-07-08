@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" >
+</head>
+<body>
+    <script>
+        
+        $.get("04多级联动.php","",(jsonTxt)=>{
+            
+            function create(arr){
+                var $sel = $("<select></select>")
+                for(var i = 0;i<arr.length;i++){
+                    var $opt = $(`<option>${arr[i].Name}</option>`)
+                    $sel.append($opt)
+                }
+                
+                
+                $sel.change(function(){
+                    $(this).nextAll().remove();
+                    
+                    if(arr[this.selectedIndex].children){
+                        create(arr[this.selectedIndex].children)
+                    }  
+                })
+                
+                $("body").append($sel)
+            }
+            create(jsonTxt.Location)
+        },"JSON")
+        // $("body").append($sel)
+    </script>
+</body>
+</html>
